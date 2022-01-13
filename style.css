@@ -3,5 +3,13 @@
 
 .nav-item a {
     font-size: larger;
-    /* margin: 0 1rem; */
+    /* font-weight: 700; */
+}
+
+.navbar-brand img {
+    width: 4.5rem;
+}
+
+.navbar-brand h3{
+    margin-bottom: 0 !important;
 }
