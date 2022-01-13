@@ -3,13 +3,27 @@
 
 .nav-item a {
     font-size: larger;
-    /* font-weight: 700; */
 }
 
 .navbar-brand img {
-    width: 4.5rem;
+    width: 4rem;
 }
 
 .navbar-brand h3{
     margin-bottom: 0 !important;
 }
+
+.carousel-item img {
+    opacity: .4;
+    min-height: 100%;
+}
+
+.carousel-item {
+    height: 30rem; 
+    background-color: #000; 
+    color:white; 
+    position: relative; 
+    background-position: center; 
+    background-size: cover;   
+}
+
