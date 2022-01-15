@@ -15,6 +15,9 @@
     <!-- Local CSS Styles -->
     <link rel="stylesheet" href="style.css">
 
+    <!-- Local JS Scripts -->
+    <script src="main.js"></script>
+
     <title>Delivery Service</title>
 </head>
 
@@ -37,7 +40,7 @@
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarNavDropdown">
+                <div class="collapse navbar-collapse text-end justify-content-end" id="navbarNavDropdown">
                     <ul class="navbar-nav fw-bold">
                         <li class="nav-item border-start">
                             <a class="nav-link active mx-3" aria-current="page" href="#">Home</a>
@@ -107,44 +110,138 @@
         </div>
     </section>
 
-    <section class="my-4 w-80 d-flex justify-content-center flex-column align-items-center">
-        <h1>Служба доставки еды</h1>
-        <h2>Наши преимущества</h2>
-        <div class="container mt-4">
+    <section class="my-5 w-80 d-flex justify-content-center flex-column align-items-center">
+        <h1>Наши преимущества</h1>
+        <div class="heading-line mx-auto my-5"></div>
+        <div class="container">
             <div class="row">
-                <div class="col-6 col-md-4 d-flex justify-content-center align-items-center flex-column my-2">
-                    <i class="bi bi-percent" style="font-size: 7rem; color: cornflowerblue"></i>
+                <div
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
+                    <i class="bi bi-percent" style="font-size: 6rem; color: cornflowerblue"></i>
                     <h5 class="fw-bold">Низкие цены</h5>
                 </div>
-                <div class="col-6 col-md-4 d-flex justify-content-center align-items-center flex-column my-2">
-                    <i class="bi bi-stopwatch" style="font-size: 7rem; color: cornflowerblue"></i>
+                <div
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
+                    <i class="bi bi-stopwatch" style="font-size: 6rem; color: cornflowerblue"></i>
                     <h5 class="fw-bold">Доставка за минимальное время</h5>
                 </div>
-                <div class="col-6 col-md-4 d-flex justify-content-center align-items-center flex-column my-2">
-                    <i class="bi bi-gift" style="font-size: 7rem; color: cornflowerblue"></i>
+                <div
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
+                    <i class="bi bi-gift" style="font-size: 6rem; color: cornflowerblue"></i>
                     <h5 class="fw-bold">В каждом заказе - подарок</h5>
                 </div>
-                <div class="col-6 col-md-4 d-flex justify-content-center align-items-center flex-column my-2">
-                    <i class="bi bi-award" style="font-size: 7rem; color: cornflowerblue"></i>
+                <div
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
+                    <i class="bi bi-award" style="font-size: 6rem; color: cornflowerblue"></i>
                     <h5 class="fw-bold">Нас рекомендуют</h5>
                 </div>
-                <div class="col-6 col-md-4 d-flex justify-content-center align-items-center flex-column my-2">
-                    <i class="bi bi-sliders" style="font-size: 7rem; color: cornflowerblue"></i>
+                <div
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
+                    <i class="bi bi-sliders" style="font-size: 6rem; color: cornflowerblue"></i>
                     <h5 class="fw-bold">Можно настроить индивидуально</h5>
                 </div>
-                <div class="col-6 col-md-4 d-flex justify-content-center align-items-center flex-column my-2">
-                    <i class="bi bi-wallet2" style="font-size: 7rem; color: cornflowerblue"></i>
+                <div
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
+                    <i class="bi bi-wallet2" style="font-size: 6rem; color: cornflowerblue"></i>
                     <h5 class="fw-bold">Множество способов оплаты</h5>
                 </div>
             </div>
         </div>
     </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+    <section class="d-flex justify-content-center">
+        <div class="my-5 width-on-section-choose-company text-center rounded-3 shadow-lg p-3 mb-5 bg-body">
+            <h1 class="mt-5">Выбор предприятия общественного питания</h1>
+            <div class="heading-line mx-auto mt-5"></div>
+            <div class="border my-5">
+                <div class="container">
+                    <div class="row mt-5">
+                        <div class="col-lg-6 mb-3">
+                            <h6 class="text-start ms-2">Административный округ</h6>
+                            <select class="form-select" aria-label="Default select example" id="adm-area">
+                                <option selected disabled>Выберите</option>
+
+                            </select>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <h6 class="text-start ms-2">Район</h6>
+                            <select class="form-select" aria-label="Default select example" id="district">
+                                <option selected disabled>Выберите</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row my-5">
+                        <div class="col-lg-3 mb-3">
+                            <h6 class="text-start ms-2">Тип</h6>
+                            <select class="form-select" aria-label="Default select example" id="type">
+                                <option selected disabled>Выберите</option>
+
+                            </select>
+                        </div>
+                        <div class="col-lg-3 mb-3">
+                            <h6 class="text-start ms-2">Соц. скидки</h6>
+                            <select class="form-select" aria-label="Default select example" id="discount">
+                                <option selected disabled>Выберите</option>
+                                <option>Да</option>
+                                <option>Нет</option>
+                            </select>
+                        </div>
+                        <div class="d-grid col-lg-3 offset-lg-3 col-md-4 offset-md-8 my-auto pb-2">
+                            <button class="btn btn-primary" type="button">Найти</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border mb-5 table-responsive">
+                <table class="table align-middle ">
+                    <thead>
+                        <tr>
+                            <th width="22%" scope="col">Название</th>
+                            <th width="22%" scope="col">Тип</th>
+                            <th width="41%" scope="col">Адрес</th>
+                            <th width="15%" scope="col">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-cafe">
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination my-5">
+                <button class="btn first-page-btn" data-page="1">Первая страница</button>
+                <div class="pages-btns">
+                    <button class="btn active" data-page="1">1</button>
+                    <button class="btn" data-page="2">2</button>
+                    <button class="btn" data-page="3">3</button>
+                </div>
+                <button class="btn last-page-btn" data-page="">Последняя страница</button>
+            </div> <!-- Заглушка -->
+        </div>
+    </section>
+
+    <section class="my-5" >
+        <h1 class="text-center">Меню заведения</h1>
+        <div class="heading-line mx-auto my-5"></div>
+            <div class="d-flex justify-content-center align-items-center">
+            <div class="card mx-3 template-card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Название карточки</h5>
+                    <p class="card-text text-center">Краткое описание</p>
+                    <h5 class="card-cost text-center fw-bold">100 P</h5>
+                    <div class="my-3 d-flex justify-content-evenly">
+                        <button class="btn border">-</button>
+                        <input class="w-25" type="text">
+                        <button class="btn border">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 </body>
 
