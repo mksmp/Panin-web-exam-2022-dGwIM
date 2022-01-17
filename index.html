@@ -43,13 +43,10 @@
                 <div class="collapse navbar-collapse text-end justify-content-end" id="navbarNavDropdown">
                     <ul class="navbar-nav fw-bold">
                         <li class="nav-item border-start">
-                            <a class="nav-link active mx-3" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active mx-3" aria-current="page" href="#">Главная</a>
                         </li>
                         <li class="nav-item border-start">
-                            <a class="nav-link mx-3" href="#">Features</a>
-                        </li>
-                        <li class="nav-item border-start">
-                            <a class="nav-link mx-3" href="#">Pricing</a>
+                            <a class="nav-link mx-3" href="#">Административная панель</a>
                         </li>
                     </ul>
                 </div>
@@ -159,14 +156,14 @@
                         <div class="col-lg-6 mb-3">
                             <h6 class="text-start ms-2">Административный округ</h6>
                             <select class="form-select" aria-label="Default select example" id="adm-area">
-                                <option selected disabled>Выберите</option>
+                                <option selected >Не выбрано</option>
 
                             </select>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <h6 class="text-start ms-2">Район</h6>
                             <select class="form-select" aria-label="Default select example" id="district">
-                                <option selected disabled>Выберите</option>
+                                <option selected >Не выбрано</option>
 
                             </select>
                         </div>
@@ -175,27 +172,27 @@
                         <div class="col-lg-3 mb-3">
                             <h6 class="text-start ms-2">Тип</h6>
                             <select class="form-select" aria-label="Default select example" id="type">
-                                <option selected disabled>Выберите</option>
+                                <option selected >Не выбрано</option>
 
                             </select>
                         </div>
                         <div class="col-lg-3 mb-3">
                             <h6 class="text-start ms-2">Соц. скидки</h6>
                             <select class="form-select" aria-label="Default select example" id="discount">
-                                <option selected disabled>Выберите</option>
-                                <option>Да</option>
-                                <option>Нет</option>
+                                <option selected >Не выбрано</option>
+                                <option>true</option>
+                                <option>false</option>
                             </select>
                         </div>
                         <div class="d-grid col-lg-3 offset-lg-3 col-md-4 offset-md-8 my-auto pb-2">
-                            <button class="btn btn-primary" type="button">Найти</button>
+                            <button class="btn btn-primary search-btn" type="button">Найти</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="border mb-5 table-responsive">
-                <table class="table align-middle ">
+                <table class="table align-middle mb-0">
                     <thead>
                         <tr>
                             <th width="22%" scope="col">Название</th>
@@ -208,33 +205,48 @@
                     </tbody>
                 </table>
             </div>
-            <div class="pagination my-5">
-                <button class="btn first-page-btn" data-page="1">Первая страница</button>
-                <div class="pages-btns">
-                    <button class="btn active" data-page="1">1</button>
-                    <button class="btn" data-page="2">2</button>
-                    <button class="btn" data-page="3">3</button>
-                </div>
-                <button class="btn last-page-btn" data-page="">Последняя страница</button>
+            <div class="pagination my-5 d-flex justify-content-center" id="_pagination">
             </div> <!-- Заглушка -->
         </div>
     </section>
 
-    <section class="my-5" >
+    <section class="my-5">
         <h1 class="text-center">Меню заведения</h1>
         <div class="heading-line mx-auto my-5"></div>
-            <div class="d-flex justify-content-center align-items-center">
+        <div class="d-flex justify-content-center align-items-center">
             <div class="card mx-3 template-card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
+                <img src="sources/0e93ce954bad45149928.jpeg" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Название карточки</h5>
+                    <h5 class="card-title text-center">Карточка №</h5>
                     <p class="card-text text-center">Краткое описание</p>
                     <h5 class="card-cost text-center fw-bold">100 P</h5>
                     <div class="my-3 d-flex justify-content-evenly">
-                        <button class="btn border">-</button>
-                        <input class="w-25" type="text">
-                        <button class="btn border">+</button>
+                        <button class="btn border" id="btn-minus">-</button>
+                        <input class="w-25" type="text" placeholder="1" disabled>
+                        <button class="btn border" id="btn-plus">+</button>
                     </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="text-center mt-5 mb-3">Дополнительные опции</h3>
+        <div class="d-flex justify-content-center">
+            <div class="d-flex flex-column w-50">
+                <div class="d-flex justify-content-center mb-3">
+                    <label class="form-check-label fw-bold" for="IAmAStudent">Являюсь студентом ВУЗа</label>
+                    <input class="my-auto ms-3" type="checkbox" id="IAmAStudent">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <label class="form-check-label fw-bold" for="FastDelivery">Быстрая доставка</label>
+                    <input class="my-auto ms-3" type="checkbox" id="FastDelivery">
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center my-5">
+            <div class="border w-50">
+                <div class="m-2 d-flex justify-content-between flex-lg-row flex-column">
+                    <p class="my-auto">Итого: <span id="final-cost"></span></p>
+                    <button class="btn border btn-outline-secondary my-2" type="button">Оформить заказ</button>
                 </div>
             </div>
         </div>
