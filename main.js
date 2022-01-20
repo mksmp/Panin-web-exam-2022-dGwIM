@@ -1,6 +1,6 @@
 'use strict'
 
-function downloadData(page = 1) {
+function downloadData() {
     let url = "http://exam-2022-1-api.std-900.ist.mospolytech.ru/api/restaurants?api_key=17e65b07-b348-471d-a4b7-94b9b78e091b";
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url);
@@ -11,6 +11,13 @@ function downloadData(page = 1) {
         renderTypeList(this.response); // подгрузка типов заведений
     }
     xhr.send();
+} // загрузка данных с сервера для отображения списка районов, округов, типов заведений
+
+async function downloadDataById(id) {
+    let url = "http://exam-2022-1-api.std-900.ist.mospolytech.ru/api/restaurants/" + id + "?api_key=17e65b07-b348-471d-a4b7-94b9b78e091b";
+    let jsonData = await ServerRequest(url);
+    return jsonData;
+
 } // загрузка данных с сервера для отображения списка районов, округов, типов заведений
 
 function renderAdmAreaList(records) {
@@ -98,6 +105,7 @@ function createListItemType(record) {
 }
 
 function renderTable(data) {
+
     let table = document.getElementById('table-cafe');
     let i = 0;
     for (let data_item of data) {
@@ -111,8 +119,10 @@ function renderTable(data) {
 } // рендер первоначальной таблицы на 10 строк
 
 function createTableItemElement(data_item) {
+    let idElement = data_item.id;
     let itemElement = document.createElement('tr');
-    itemElement.classList.add('align-middle');
+    itemElement.setAttribute('place-id', idElement);
+    itemElement.classList.add('align-middle', 'place-row');
     itemElement.append(createRowName(data_item)); // генерация названия заведения
     itemElement.append(createRowType(data_item)); // генерация типа заведения
     itemElement.append(createRowAddress(data_item)); // генерация адреса заведения
@@ -147,8 +157,7 @@ function createRowButtonTd() {
 function createRowButton() {
     let contentElementButton = document.createElement('button');
     contentElementButton.innerHTML = "Выбрать";
-    contentElementButton.classList.add('btn');
-    contentElementButton.classList.add('btn-outline-secondary');
+    contentElementButton.classList.add('btn', 'btn-outline-secondary', 'choice-btn');
     return contentElementButton;
 }
 
@@ -280,7 +289,7 @@ function renderTableSelect(data, arrayFilters) {
             // table.append(createTableItemElement(data_item));
             i++;
         } // Проверяется условие: если элемент из data_item содержится в массиве селекта, то мы аппендим.
-        // Создано для того, чтобы создать условие из 4ех параметров, но при этом он всегда будет пропускать нас к
+        // Создано для того, чтобы создать условие из 4ех параметров, но при этом оно всегда будет пропускать нас к
         // аппенду, осуществляя выборку только по параметрам которые мы выбрали.
         // Это замена 16ти if'ам, чтобы делать выборку по 4ем селектам. 
 
@@ -290,77 +299,146 @@ function renderTableSelect(data, arrayFilters) {
     renderPaginationBtn(data_sort);
 }
 
-function renderFirstPaginationBtn() {
+function renderPrevPaginationBtn() {
     let pagination = document.getElementById('_pagination');
     let btnFirst = document.createElement('button');
-    btnFirst.classList.add('btn');
-    btnFirst.classList.add('btn-outline-secondary');
-    btnFirst.classList.add('m-2');
-    btnFirst.innerHTML = 'Первая страница';
+    btnLast.classList.add('btn', 'btn-outline-secondary', 'm-2', 'px-4');
+    btnFirst.innerHTML = '<';
     pagination.appendChild(btnFirst);
 }
 
-function renderLastPaginationBtn() {
+function renderNextPaginationBtn() {
     let pagination = document.getElementById('_pagination');
     let btnLast = document.createElement('button');
-    btnLast.classList.add('btn');
-    btnLast.classList.add('btn-outline-secondary');
-    btnLast.classList.add('m-2');
-    btnLast.innerHTML = 'Последняя страница';
+    btnLast.classList.add('btn', 'btn-outline-secondary', 'm-2', 'px-4');
+    btnLast.innerHTML = '>';
     pagination.appendChild(btnLast);
 }
 
 function renderPaginationBtn(data) {
-    let pagination = document.getElementById('_pagination');
+    const countBtn = 5; // количество кнопок в пагинации
+    const strOnPage = 10; // количество строк в таблице
+    const numOfBtn = Math.ceil(data.length / strOnPage) // количество кнопок
     let items = [];
-    if (Math.ceil(data.length / 10) > 5) {
-        renderFirstPaginationBtn()
-        for (let i = 1; i <= Math.ceil(data.length / 10); i++) {
-            let btn = document.createElement('button');
-            btn.classList.add('btn');
-            btn.classList.add('btn-outline-secondary');
-            btn.classList.add('m-2');
-            btn.innerHTML = i;
-            pagination.appendChild(btn);
-            items.push(btn);
-        }
-        renderLastPaginationBtn()
+    // renderPrevPaginationBtn()
+    for (let i = 1; i <= numOfBtn; i++) {
+        let btn = document.createElement('button');
+        btn.classList.add('btn', 'btn-outline-secondary', 'm-2');
+        btn.innerHTML = i;
+        items.push(btn);
     }
-    else {
-        for (let i = 1; i <= Math.ceil(data.length / 10); i++) {
-            let btn = document.createElement('button');
-            btn.classList.add('btn');
-            btn.classList.add('btn-outline-secondary');
-            btn.classList.add('m-2');
-            btn.innerHTML = i;
-            pagination.appendChild(btn);
-            items.push(btn);
-        }
-    }
-    // let start = 2;
-    // let end = start + 5;
-    // let items_five = items.slice(start, end) // начало того дерьма, когда мы делим по 5 кнопок пагинацию
-    addEventOnButtons(items, data);
+    // renderNextPaginationBtn()
+    renderFirstlyPagination(items, data);
+    setPaginationBtnOnPage(items[0], items, data); // чтобы 1ая страница была сразу активна
+    addEventOnButtons(items, data); // вызов генерации пагинации с активными элементами
 }
+
+function renderFirstlyPagination(items, data) {
+    let pagination = document.getElementById('_pagination');
+    const countBtn = 5; // количество кнопок в пагинации
+    const strOnPage = 10; // количество строк в таблице
+    const numOfBtn = Math.ceil(data.length / strOnPage) // количество кнопок
+    // renderPrevPaginationBtn()
+    if (numOfBtn <= countBtn) {
+        for (let i = 0; i < numOfBtn - 1; i++) {
+            pagination.appendChild(items[i]);
+        }
+    } else {
+        for (let i = 0; i < countBtn; i++) {
+            pagination.appendChild(items[i]);
+        }
+        pagination.appendChild(items[numOfBtn - 1]);
+        // случай, когда у нас активна одна из первых 4ех кнопок: 1 2 3 4 ... "LastPage" 
+    }
+}
+
+function dotsOnPagination() {
+    let dotsOnPag = document.createElement('p');
+    dotsOnPag.innerHTML = '. . .';
+    dotsOnPag.classList.add('fw-bold', 'mt-auto', 'mb-0', 'mx-2');
+    return dotsOnPag;
+} // создание объекта для троеточия в пагинации
+
+function renderLargePagination(b, items, data) {
+    let pagination = document.getElementById('_pagination');
+    const countBtn = 5;
+    const strOnPage = 10; // количество строк в таблице
+    const numOfBtn = Math.ceil(data.length / strOnPage) // количество кнопок
+    let dotsOnPag1 = dotsOnPagination();
+    let dotsOnPag2 = dotsOnPagination();
+    let dotsOnPag3 = dotsOnPagination();
+    let dotsOnPag4 = dotsOnPagination();
+    if (b <= countBtn - 1) {
+        pagination.innerHTML = '';
+        for (let i = 0; i < countBtn; i++) {
+            pagination.appendChild(items[i]);
+        }
+        pagination.appendChild(dotsOnPag1);
+        pagination.appendChild(items[numOfBtn - 1]);
+    } // случай, когда у нас активна одна из первых 4ех кнопок: 1 2 3 4 ... "LastPage" 
+
+    else if (b >= numOfBtn - (countBtn - 1) + 1) {
+        pagination.innerHTML = '';
+        pagination.appendChild(items[0]);
+        pagination.appendChild(dotsOnPag2);
+        for (let i = numOfBtn - (countBtn - 1) - 1; i < numOfBtn; i++) {
+            pagination.appendChild(items[i]);
+        }
+    } // случай, когда у нас активна одна из последних 4ех кнопок: 1 ... "LastPage" - 3, "LastPage" - 2, "LastPage" - 1, "LastPage" 
+
+    else {
+        pagination.innerHTML = '';
+        pagination.appendChild(items[0]);
+        pagination.appendChild(dotsOnPag3);
+        for (let i = -3; i <= 1; i++) {
+            pagination.appendChild(items[b + i]);
+        }
+        pagination.appendChild(dotsOnPag4);
+        pagination.appendChild(items[numOfBtn - 1]);
+
+    } // серединные случаи, когда 1 ... btn_x - 1, btn_x, btn_x + 1 ... "LastPage" 
+
+}
+
+
 
 function addEventOnButtons(items, data) {
-    let table = document.getElementById('table-cafe');
     for (let item of items) {
         item.addEventListener('click', function () {
-            let pageNum = +this.innerHTML;
-
-            let start = (pageNum - 1) * 10;
-            let end = start + 10;
-            let notes = data.slice(start, end);
-
-            table.innerHTML = ' ';
-
-            for (let note of notes) {
-                table.append(createTableItemElement(note));
-            }
+            setPaginationBtnOnPage(item, items, data)
         })
     }
-}
+} // добавим на все кнопки EventListener
+
+let setPaginationBtnOnPage = (function () {
+    let active; // переменная, чтобы управлять классом .active
+    return function (item, items, data) {
+
+
+        let table = document.getElementById('table-cafe');
+
+        if (active) { active.classList.remove("active"); } // проверка, что если есть активная кнопка, то убрать у нее класс .active
+
+        active = item; // перезапись переменной для пагинации
+
+        let pageNum = +item.innerHTML; // получение номера страницы, чтобы вычислить данные, которые необходимо отразить
+
+        item.classList.add('active') // сделать текущую кнопку активной
+
+        if (items.length > 5) { renderLargePagination(+item.innerHTML, items, data); } // структурная пагинация с активными элементами
+
+        let start = (pageNum - 1) * 10;
+        let end = start + 10;
+        let notes = data.slice(start, end); // выделение в массиве данных тех записей, которых нам нужно отобразить на данной странице в таблице
+
+        table.innerHTML = ' '; // обнуление таблицы
+
+        for (let note of notes) {
+            table.append(createTableItemElement(note));
+        }
+        TakeIdOfEatery(); // вытаскиваем id кнопки после выборки по поиску для рендера меню
+    };
+}()); // function expression, делает для нас нормальную пагинацию
 
 function renderNewDistrictList(records, selectedAdmAreaText) {
     let districtList = document.getElementById("district");
@@ -384,7 +462,7 @@ function renderNewDistrictList(records, selectedAdmAreaText) {
             arrDistrict.push(record.district);
         }
     }
-}
+} // рендер районов, которые входят в выбранный округ
 
 function EmptyDistrictListItem() {
     let itemElement = document.createElement('option');
@@ -392,19 +470,60 @@ function EmptyDistrictListItem() {
     return itemElement;
 }
 
-function clickHandlerSearch() {
+function takePricesFromDataById(data) {
+    let arr = [];
+    arr.push(data.set_1);
+    arr.push(data.set_2);
+    arr.push(data.set_3);
+    arr.push(data.set_4);
+    arr.push(data.set_5);
+    arr.push(data.set_6);
+    arr.push(data.set_7);
+    arr.push(data.set_8);
+    arr.push(data.set_9);
+    arr.push(data.set_10);
+    return arr;
+} // берет из данных по id только цены
+
+function renderMenu(prices) {
+    const countCards = 10;
+    // let menuData = JSON.parse();
+    let menuWindow = document.getElementById('menu-of-eaten');
+    menuWindow.innerHTML = '';
+    for (let i = 0; i < countCards; i++) {
+        let card = document.querySelector('.template-card').cloneNode(true);
+        card.classList.remove('d-none');
+        // card.querySelector('.card-title').innerHTML = menuData[i][1];
+        // card.querySelector('.card-text').innerHTML = menuData[i][2];
+        card.querySelector('.card-cost').innerHTML = prices[i] + ' P';
+        menuWindow.appendChild(card);
+    }
+}
+
+function clickHandlerChoiceBtn(event) {
+    let placeRow = event.target.closest('.place-row'); // берем родительский элемент
+    let rowId = placeRow.getAttribute('place-id'); // берем id из нашего атрибута
+    downloadDataById(rowId) // загружаем данные по id
+        .then(menuItem => takePricesFromDataById(menuItem)) // берем только 10 цен
+        .then(arr => renderMenu(arr)); // вызов рендера меню
+
+}
+
+function clickHandlerSearchBtn() {
     downloadForm()
         .then(downloadData => sort(downloadData))
-        .then(data => getSelect(data));;
+        .then(data => getSelect(data));
 } // обработчик кнопки "Найти", которая рендерит таблицу
 
 window.onload = function () {
     downloadData(); // загрузка данных с сервера для отображения списка районов, округов, типов заведений
-    downloadForm()
-        .then(downloadData => sort(downloadData))
-        .then(data => renderTable(data)); // загрузка данных с сервера для добавления в таблицу
-    let searchbtn = document.querySelector('.search-btn'); // поиск по кнопке 
-    searchbtn.addEventListener('click', clickHandlerSearch); // поиск по кнопке 
+    downloadForm() // загрузка данных с сервера для добавления в таблицу
+        .then(downloadData => sort(downloadData)) // сортировка данных
+        .then(data => renderTable(data)) // рендер таблицы
+        .then(() => TakeIdOfEatery()); // вытаскиваем id после рендера первоначальной таблицы
+    let searchBtn = document.querySelector('.search-btn'); // поиск по кнопке 
+    searchBtn.addEventListener('click', clickHandlerSearchBtn);
+    // .then(() => TakeIdOfEatery()); // поиск по кнопке 
     //////////////// подгрузка определенных районов при выбранном округе /////////////////////
     document.getElementById('adm-area').onchange = function () {
         let selectedAdmArea = document.getElementById("adm-area").options.selectedIndex;
@@ -415,56 +534,12 @@ window.onload = function () {
             .then(downloadData => renderDistrictList(downloadData))
         ///////////////////////////////////////////////////////////////////////////////////////////
     }
-} // загрузка данных
 
 
-
-
-
-function renderPaginationElement(data) {
-    let btn;
-    let paginationContainer = document.getElementById('_pagination');
-    paginationContainer.innerHTML = '';
-    if (data.length == 0) return;
-
-    btn = createPageBtn(1, ['first-page-btn']);
-    btn.innerHTML = 'Первая страница';
-    if (info.current_page == 1) {
-        btn.style.visibility = 'hidden';
-    }
-    paginationContainer.append(btn);
-
-    let buttonsContainer = document.createElement('div');
-    buttonsContainer.classList.add('pages-btns');
-    paginationContainer.append(buttonsContainer);
-
-    let start = Math.max(info.current_page - 2, 1);
-    let end = Math.min(info.current_page + 2, info.total_pages);
-    for (let i = start; i <= end; i++) {
-        buttonsContainer.append(createPageBtn(i, i == info.current_page ? ['active'] : []));
-    }
-
-    btn = createPageBtn(info.total_pages, ['last-page-btn']);
-    btn.innerHTML = 'Последняя страница';
-    if (info.current_page == info.total_pages) {
-        btn.style.visibility = 'hidden';
-    }
-    paginationContainer.append(btn);
 }
 
-function setPaginationInfo(info) {
-    document.querySelector('.total-count').innerHTML = info.total_count;
-    let start = info.total_count > 0 ? (info.current_page - 1) * info.per_page + 1 : 0;
-    document.querySelector('.current-interval-start').innerHTML = start;
-    let end = Math.min(info.total_count, start + info.per_page - 1);
-    document.querySelector('.current-interval-end').innerHTML = end;
-}
-
-function createPageBtn(page, classes = []) {
-    let btn = document.createElement('button');
-    classes.push('btn');
-    btn.classList.add(...classes);
-    btn.dataset.page = page;
-    btn.innerHTML = page;
-    return btn;
+function TakeIdOfEatery() {
+    for (let btn of document.querySelectorAll('.place-row')) {
+        btn.onclick = clickHandlerChoiceBtn;
+    }
 }
