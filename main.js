@@ -167,8 +167,7 @@ async function ServerRequest(url) {
         .catch(error => alert(error.status));
 } // запрос фетч на загрузку данных с сервера
 
-async function downloadForm() {
-    let url = 'http://exam-2022-1-api.std-900.ist.mospolytech.ru/api/restaurants?api_key=17e65b07-b348-471d-a4b7-94b9b78e091b';
+async function downloadForm(url) {
     let jsonData = await ServerRequest(url);
     return jsonData;
 } // загрузка данных с сервера для добавления в таблицу
@@ -340,7 +339,7 @@ function renderFirstlyPagination(items, data) {
     const numOfBtn = Math.ceil(data.length / strOnPage) // количество кнопок
     // renderPrevPaginationBtn()
     if (numOfBtn <= countBtn) {
-        for (let i = 0; i < numOfBtn - 1; i++) {
+        for (let i = 0; i < numOfBtn; i++) {
             pagination.appendChild(items[i]);
         }
     } else {
@@ -510,14 +509,16 @@ function clickHandlerChoiceBtn(event) {
 }
 
 function clickHandlerSearchBtn() {
-    downloadForm()
+    let url = 'http://exam-2022-1-api.std-900.ist.mospolytech.ru/api/restaurants?api_key=17e65b07-b348-471d-a4b7-94b9b78e091b';
+    downloadForm(url)
         .then(downloadData => sort(downloadData))
         .then(data => getSelect(data));
 } // обработчик кнопки "Найти", которая рендерит таблицу
 
 window.onload = function () {
     downloadData(); // загрузка данных с сервера для отображения списка районов, округов, типов заведений
-    downloadForm() // загрузка данных с сервера для добавления в таблицу
+    let url = 'http://exam-2022-1-api.std-900.ist.mospolytech.ru/api/restaurants?api_key=17e65b07-b348-471d-a4b7-94b9b78e091b';
+    downloadForm(url) // загрузка данных с сервера для добавления в таблицу
         .then(downloadData => sort(downloadData)) // сортировка данных
         .then(data => renderTable(data)) // рендер таблицы
         .then(() => TakeIdOfEatery()); // вытаскиваем id после рендера первоначальной таблицы
@@ -528,9 +529,9 @@ window.onload = function () {
     document.getElementById('adm-area').onchange = function () {
         let selectedAdmArea = document.getElementById("adm-area").options.selectedIndex;
         let selectedAdmAreaText = document.getElementById("adm-area").options[selectedAdmArea].text;
-        if (selectedAdmAreaText != "Не выбрано") downloadForm()
+        if (selectedAdmAreaText != "Не выбрано") downloadForm(url)
             .then(downloadData => renderNewDistrictList(downloadData, selectedAdmAreaText))
-        else downloadForm()
+        else downloadForm(url)
             .then(downloadData => renderDistrictList(downloadData))
         ///////////////////////////////////////////////////////////////////////////////////////////
     }
@@ -543,3 +544,5 @@ function TakeIdOfEatery() {
         btn.onclick = clickHandlerChoiceBtn;
     }
 }
+
+let url = 'http://exam-2022-1-api.std-900.ist.mospolytech.ru/api/restaurants?api_key=17e65b07-b348-471d-a4b7-94b9b78e091b';
