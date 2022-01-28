@@ -484,27 +484,41 @@ function takePricesFromDataById(data) {
     return arr;
 } // берет из данных по id только цены
 
-function renderMenu(prices) {
-    const countCards = 10;
-    // let menuData = JSON.parse();
+function takeJsonInfo(prices) {
+    let url = './menu.json'
+    downloadForm(url)
+        .then(jsonData => renderMenu(prices, jsonData));
+}
+
+function renderMenu(prices, jsonData) {
+    document.querySelector('.header-of-menu').classList.remove('d-none');
+    document.querySelector('.options-of-menu').classList.remove('d-none');
     let menuWindow = document.getElementById('menu-of-eaten');
-    menuWindow.innerHTML = '';
-    for (let i = 0; i < countCards; i++) {
+    menuWindow.innerHTML = ''; // обнулить 
+    let k = 0;
+    console.log(jsonData);
+    for (let data of jsonData) {
         let card = document.querySelector('.template-card').cloneNode(true);
         card.classList.remove('d-none');
-        // card.querySelector('.card-title').innerHTML = menuData[i][1];
-        // card.querySelector('.card-text').innerHTML = menuData[i][2];
-        card.querySelector('.card-cost').innerHTML = prices[i] + ' P';
+        card.querySelector('.card-img-top').setAttribute('src', data.logo)
+        card.querySelector('.card-title').innerHTML = data.name;
+        card.querySelector('.card-text').innerHTML = data.desc;
+        card.querySelector('.card-cost').innerHTML = prices[k];
+        k++;
         menuWindow.appendChild(card);
     }
+    addCostOfDish(); // clickHandler на увеличение количества блюда
+    removeCostOfDish(); // clickHandler на уменьшение количества блюда
 }
 
 function clickHandlerChoiceBtn(event) {
+    document.getElementById('final-cost').innerHTML = 0;
     let placeRow = event.target.closest('.place-row'); // берем родительский элемент
     let rowId = placeRow.getAttribute('place-id'); // берем id из нашего атрибута
     downloadDataById(rowId) // загружаем данные по id
         .then(menuItem => takePricesFromDataById(menuItem)) // берем только 10 цен
-        .then(arr => renderMenu(arr)); // вызов рендера меню
+        .then(arr => takeJsonInfo(arr)); // вызов рендера меню
+
 
 }
 
@@ -515,16 +529,56 @@ function clickHandlerSearchBtn() {
         .then(data => getSelect(data));
 } // обработчик кнопки "Найти", которая рендерит таблицу
 
+function TakeIdOfEatery() {
+    for (let btn of document.querySelectorAll('.place-row')) {
+        btn.onclick = clickHandlerChoiceBtn;
+    }
+}
+
+function addCostOfDish() {
+    for (let btn of document.querySelectorAll('.button-plus')) {
+        btn.onclick = clickHandlerAddCostBtn;
+    }
+} // назначим обработчик на каждую кнопку
+
+function removeCostOfDish() {
+    for (let btn of document.querySelectorAll('.button-minus')) {
+        btn.onclick = clickHandlerRemoveCostBtn;
+    }
+} // назначим обработчик на каждую кнопку
+
+function clickHandlerAddCostBtn(event) {
+    event.target.parentNode.querySelector('.input-value').stepUp();
+    let temp = event.target.closest('.card-body');
+    let cost = temp.querySelector('.card-cost').innerHTML;
+    
+    document.getElementById('final-cost').innerHTML = +document.getElementById('final-cost').innerHTML + +cost;
+    console.log(cost);
+}
+
+function clickHandlerRemoveCostBtn(event) {
+    if (event.target.parentNode.querySelector('.input-value').value != 0) {
+        event.target.parentNode.querySelector('.input-value').stepDown();
+        let temp = event.target.closest('.card-body');
+        let cost = temp.querySelector('.card-cost').innerHTML;
+        document.getElementById('final-cost').innerHTML = +document.getElementById('final-cost').innerHTML - +cost;
+        console.log(cost);
+    }
+    
+}
+
 window.onload = function () {
-    downloadData(); // загрузка данных с сервера для отображения списка районов, округов, типов заведений
     let url = 'http://exam-2022-1-api.std-900.ist.mospolytech.ru/api/restaurants?api_key=17e65b07-b348-471d-a4b7-94b9b78e091b';
+    downloadData(); // загрузка данных с сервера для отображения списка районов, округов, типов заведений
     downloadForm(url) // загрузка данных с сервера для добавления в таблицу
         .then(downloadData => sort(downloadData)) // сортировка данных
         .then(data => renderTable(data)) // рендер таблицы
         .then(() => TakeIdOfEatery()); // вытаскиваем id после рендера первоначальной таблицы
+    // .then(() => addCostOfDish)
+    // .then(() => removeCostOfDish);
     let searchBtn = document.querySelector('.search-btn'); // поиск по кнопке 
     searchBtn.addEventListener('click', clickHandlerSearchBtn);
-    // .then(() => TakeIdOfEatery()); // поиск по кнопке 
+
     //////////////// подгрузка определенных районов при выбранном округе /////////////////////
     document.getElementById('adm-area').onchange = function () {
         let selectedAdmArea = document.getElementById("adm-area").options.selectedIndex;
@@ -538,11 +592,3 @@ window.onload = function () {
 
 
 }
-
-function TakeIdOfEatery() {
-    for (let btn of document.querySelectorAll('.place-row')) {
-        btn.onclick = clickHandlerChoiceBtn;
-    }
-}
-
-let url = 'http://exam-2022-1-api.std-900.ist.mospolytech.ru/api/restaurants?api_key=17e65b07-b348-471d-a4b7-94b9b78e091b';

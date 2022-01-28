@@ -5,7 +5,7 @@
     font-size: larger;
 }
 
-.navbar-brand img {
+.logo-img img {
     width: 4rem;
 }
 
@@ -32,4 +32,26 @@
 
 .width-on-section-choose-company {
     width: 90%;
+}
+
+.bi-footer {
+    font-size: 2rem;
+}
+
+.card {
+    width: 18rem;
+}
+
+.card-img-top {
+    height: 10rem;
+    min-height: 100%;
+}
+
+.card-text {
+    height: 6rem;
+}
+
+.icons-on-advantages i{
+    font-size: 6rem;
+    color: cornflowerblue;
 }

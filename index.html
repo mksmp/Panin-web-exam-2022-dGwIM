@@ -27,7 +27,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <div class="container-fluid">
                 <div class="border-end d-flex flex-nowrap align-items-center">
-                    <a class="navbar-brand mx-3" href="#">
+                    <a class="navbar-brand mx-3 logo-img" href="#">
                         <img src="sources/fast-delivery.png" alt="">
                     </a>
                     <a class="navbar-brand mr-3" href="#">
@@ -114,33 +114,33 @@
         <div class="container">
             <div class="row">
                 <div
-                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
-                    <i class="bi bi-percent" style="font-size: 6rem; color: cornflowerblue"></i>
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2 icons-on-advantages">
+                    <i class="bi bi-percent"></i>
                     <h5 class="fw-bold">Низкие цены</h5>
                 </div>
                 <div
-                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
-                    <i class="bi bi-stopwatch" style="font-size: 6rem; color: cornflowerblue"></i>
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2 icons-on-advantages">
+                    <i class="bi bi-stopwatch"></i>
                     <h5 class="fw-bold">Доставка за минимальное время</h5>
                 </div>
                 <div
-                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
-                    <i class="bi bi-gift" style="font-size: 6rem; color: cornflowerblue"></i>
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2 icons-on-advantages">
+                    <i class="bi bi-gift"></i>
                     <h5 class="fw-bold">В каждом заказе - подарок</h5>
                 </div>
                 <div
-                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
-                    <i class="bi bi-award" style="font-size: 6rem; color: cornflowerblue"></i>
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2 icons-on-advantages">
+                    <i class="bi bi-award"></i>
                     <h5 class="fw-bold">Нас рекомендуют</h5>
                 </div>
                 <div
-                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
-                    <i class="bi bi-sliders" style="font-size: 6rem; color: cornflowerblue"></i>
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2 icons-on-advantages">
+                    <i class="bi bi-sliders"></i>
                     <h5 class="fw-bold">Можно настроить индивидуально</h5>
                 </div>
                 <div
-                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2">
-                    <i class="bi bi-wallet2" style="font-size: 6rem; color: cornflowerblue"></i>
+                    class="text-center col-6 col-md-4 d-flex justify-content-start align-items-center flex-column my-2 icons-on-advantages">
+                    <i class="bi bi-wallet2"></i>
                     <h5 class="fw-bold">Множество способов оплаты</h5>
                 </div>
             </div>
@@ -212,49 +212,85 @@
     </section>
 
     <section class="my-5">
-        <h1 class="text-center">Меню заведения</h1>
-        <div class="heading-line mx-auto my-5"></div>
+        <div class="header-of-menu d-none">
+            <h1 class="text-center">Меню заведения</h1>
+            <div class="heading-line mx-auto my-5"></div>
+        </div>
         <!-- Template a card of a menu -->
-        <div class="card m-3 template-card d-none" style="width: 18rem;">
-            <img src="sources/0e93ce954bad45149928.jpeg" class="card-img-top" alt="...">
+        <div class="card m-3 template-card d-none">
+            <img class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title text-center">Карточка №</h5>
                 <p class="card-text text-center">Краткое описание</p>
                 <h5 class="card-cost text-center fw-bold">100 P</h5>
-                <div class="my-3 d-flex justify-content-evenly">
-                    <button class="btn border" id="btn-minus">-</button>
-                    <input class="w-25" type="text" placeholder="1" disabled>
-                    <button class="btn border" id="btn-plus">+</button>
+                <div class="my-3 w-50 mx-auto input-group justify-content-center">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <button class="btn btn-outline-secondary btn-sm button-minus">-</button>
+                        <input class="quantity w-25 input-value" min="0" name="quantity" value="0" type="number"
+                            disabled>
+                        <button class="btn btn-outline-secondary btn-sm button-plus">+</button>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- Template a card of a menu -->
-            <div class="d-flex justify-content-center align-items-center flex-wrap" id="menu-of-eaten">
-                <!-- Place for menu -->
-            </div>
-        <h3 class="text-center mt-5 mb-3">Дополнительные опции</h3>
-        <div class="d-flex justify-content-center">
-            <div class="d-flex flex-column w-50">
-                <div class="d-flex justify-content-center mb-3">
-                    <label class="form-check-label fw-bold" for="IAmAStudent">Являюсь студентом ВУЗа</label>
-                    <input class="my-auto ms-3" type="checkbox" id="IAmAStudent">
-                </div>
-                <div class="d-flex justify-content-center">
-                    <label class="form-check-label fw-bold" for="FastDelivery">Быстрая доставка</label>
-                    <input class="my-auto ms-3" type="checkbox" id="FastDelivery">
-                </div>
-            </div>
+        <div class="d-flex justify-content-center align-items-center flex-wrap" id="menu-of-eaten">
+            <!-- Place for menu -->
         </div>
+        <div class="options-of-menu d-none">
+            <h3 class="text-center mt-5 mb-3">Дополнительные опции</h3>
+            <div class="d-flex justify-content-center">
+                <div class="d-flex flex-column">
+                    <div class="d-flex justify-content-center mb-3">
+                        <label class="form-check-label fw-bold" for="IAmAStudent">Являюсь студентом ВУЗа</label>
+                        <input class="my-auto ms-3" type="checkbox" id="IAmAStudent">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <label class="form-check-label fw-bold" for="FastDelivery">Быстрая доставка</label>
+                        <input class="my-auto ms-3" type="checkbox" id="FastDelivery">
+                    </div>
+                </div>
+            </div>
 
-        <div class="d-flex justify-content-center my-5">
-            <div class="border w-50">
-                <div class="m-2 d-flex justify-content-between flex-lg-row flex-column">
-                    <p class="my-auto">Итого: <span id="final-cost"></span></p>
-                    <button class="btn border btn-outline-secondary my-2" type="button">Оформить заказ</button>
+            <div class="d-flex justify-content-center my-5">
+                <div class="border w-50">
+                    <div class="m-2 d-flex justify-content-between flex-lg-row flex-column ">
+                        <p class="my-auto">Итого: <span id="final-cost">0</span> P</p>
+                        <button class="btn border btn-outline-secondary my-2" type="button">Оформить заказ</button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <footer class="d-flex justify-content-between align-items-center py-3 my-4 border-top">
+                    <div class="col-md-4 d-flex justify-content-center align-items-start flex-wrap flex-column">
+                        <p class="mb-0 text-muted">© 2022 Food Delivery</p>
+                        <p>example@example.ru</p>
+                    </div>
+
+
+
+                    <a href="/"
+                        class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none logo-img">
+                        <img src="sources/fast-delivery.png" alt="">
+                        <!-- <h4>Delivery Service</h4> -->
+                    </a>
+
+                    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                        <li class="ms-3"><a class="text-muted" href="#"><i class="bi bi-footer bi-twitter"></i></a></li>
+                        <li class="ms-3"><a class="text-muted" href="#"><i class="bi bi-footer bi-instagram"></i></a>
+                        </li>
+                        <li class="ms-3"><a class="text-muted" href="#"><i class="bi bi-footer bi-facebook"></i></a>
+                        </li>
+                    </ul>
+                </footer>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
