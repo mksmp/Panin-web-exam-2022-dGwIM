@@ -484,32 +484,152 @@ function takePricesFromDataById(data) {
     return arr;
 } // берет из данных по id только цены
 
-function takeJsonInfo(prices) {
+function takeJsonInfo(prices, placeId) {
     let url = './menu.json'
     downloadForm(url)
-        .then(jsonData => renderMenu(prices, jsonData));
+        .then(jsonData => renderMenu(prices, jsonData, placeId));
 }
 
-function renderMenu(prices, jsonData) {
-    document.querySelector('.header-of-menu').classList.remove('d-none');
-    document.querySelector('.options-of-menu').classList.remove('d-none');
+function renderMenu(prices, jsonData, placeId) {
     let menuWindow = document.getElementById('menu-of-eaten');
-    menuWindow.innerHTML = ''; // обнулить 
+    document.querySelector('.header-of-menu').classList.remove('d-none'); // делаем видимым заголовок меню
+    menuWindow.classList.remove('d-none'); // делаем видимым меню
+    document.querySelector('.options-of-menu').classList.remove('d-none'); // делаем видимым доп функции и стоимость выбранных позиций
+    menuWindow.innerHTML = ''; // обнулить меню
+    countOfTakePrize = 0; // обнулить счетчик, который показывает выпал ли нам уже в этом заведении подарок
     let k = 0;
     console.log(jsonData);
     for (let data of jsonData) {
         let card = document.querySelector('.template-card').cloneNode(true);
-        card.classList.remove('d-none');
+        card.classList.remove('d-none', '.template-card');
+        card.classList.add('card-in-menu');
         card.querySelector('.card-img-top').setAttribute('src', data.logo)
         card.querySelector('.card-title').innerHTML = data.name;
         card.querySelector('.card-text').innerHTML = data.desc;
         card.querySelector('.card-cost').innerHTML = prices[k];
         k++;
         menuWindow.appendChild(card);
-    }
+    } // добавляем карточки в меню
     addCostOfDish(); // clickHandler на увеличение количества блюда
     removeCostOfDish(); // clickHandler на уменьшение количества блюда
+    document.querySelector('.btn-order').onclick = function () {
+        clickHandlerGoModal(placeId); // навешиваем обработчик на кнопку оформления заказа
+    }
 }
+
+function cleanModal() {
+    let positionsOfOrder = document.querySelector('.positions-of-order'); // родитель всех позиций заказа
+    positionsOfOrder.innerHTML = ''; // очистка позиций
+    document.querySelector('.modal-final-cost').innerHTML = 0; // обнуление общей суммы
+}
+
+function renderPositionsOfModalMenu() {
+    let positionsOfOrder = document.querySelector('.positions-of-order'); // родитель всех позиций заказа
+    let positionOfMenu = document.querySelectorAll('.card-in-menu'); // взять все карточки из меню
+    for (let position of positionOfMenu) {
+        if (position.querySelector('.input-value').value != 0) {
+            let modalCard = document.querySelector('.template-position-element').cloneNode(true);
+            modalCard.classList.remove('d-none', '.template-position-element');
+            let img = position.querySelector('.card-img-top').getAttribute('src'); // берем катинку из меню
+            modalCard.querySelector('.img-position-element').setAttribute('src', img); // отправляем картинку из меню в модальное окно
+            modalCard.querySelector('.text-position-element').innerHTML = position.querySelector('.card-title').innerHTML; // берем название из карточки меню
+            modalCard.setAttribute('count-choosen', position.querySelector('.input-value').value); // добавляем новый атрибут, чтобы вынести из него количество одной позиции
+            modalCard.querySelector('.price-position-element').innerHTML = position.querySelector('.card-cost').innerHTML + 'x' + position.querySelector('.input-value').value; // подсчет
+            modalCard.querySelector('.end-price-position-element').innerHTML = +position.querySelector('.card-cost').innerHTML * +position.querySelector('.input-value').value; // итоговая цена по карточке
+            positionsOfOrder.appendChild(modalCard);
+        }
+    }
+} // функция служит для генерации выбранных позиций из меню в модальном окне
+
+function renderPrizeinModalMenu() {
+    let positionsOfOrder = document.querySelector('.positions-of-order'); // родитель всех позиций заказа
+    let positionOfMenu = document.querySelectorAll('.card-in-menu'); // взять все карточки из меню
+
+    let randPositionOfMenu = getRandomInt(10); // случайное число от 0 до 9
+
+    if (document.getElementById('IWannaGift').checked && countOfTakePrize == 0 && positionOfMenu[randPositionOfMenu].querySelector('.input-value').value == 0) {
+        countOfTakePrize++;
+        let modalCard = document.querySelector('.template-position-element').cloneNode(true);
+        modalCard.classList.remove('d-none', '.template-position-element');
+        let img = positionOfMenu[randPositionOfMenu].querySelector('.card-img-top').getAttribute('src'); // берем катинку из меню
+        modalCard.querySelector('.img-position-element').setAttribute('src', img); // отправляем картинку из меню в модальное окно
+        modalCard.querySelector('.text-position-element').innerHTML = positionOfMenu[randPositionOfMenu].querySelector('.card-title').innerHTML; // берем название из карточки меню
+        modalCard.querySelector('.price-position-element').innerHTML = '-'; // подсчет
+        modalCard.querySelector('.end-price-position-element').innerHTML = 0; // итоговая цена по карточке
+        positionsOfOrder.appendChild(modalCard);
+    } else if (document.getElementById('IWannaGift').checked && countOfTakePrize == 0 && positionOfMenu[randPositionOfMenu].querySelector('.input-value').value > 0) {
+        let positions = document.querySelectorAll('.position-element');
+        for (let position of positions) {
+            if (position.querySelector('.text-position-element').innerHTML == positionOfMenu[randPositionOfMenu].querySelector('.card-title').innerHTML) {
+                let temp = position.getAttribute('count-choosen');
+                temp = +temp + 1;
+                position.querySelector('.price-position-element').innerHTML = positionOfMenu[randPositionOfMenu].querySelector('.card-cost').innerHTML + 'x' + temp; // подсчет
+            }
+        }
+    }
+} // функция служит для рандомизации подарка. Если у нас выпадает позиция, которая была еще не выбрана, то она просто добавляется в модальное окно с нулевой стоимостью.
+// Если у нас выпадает подарок, который мы уже выбирали как позицию из меню, то мы берем значение атрибута, по которому мы понимаем количество по данной позиции,
+// а далее проходимся по всем позициям в модальном окне: если мы нашли сопадение имени подарка и имени позиции, то мы увеличиваем количество по данной позиции.
+
+let countOfTakePrize = 0; // мы ввели переменную для того, чтобы проверять выбралась ли случайная позиция из меню данного ресторана
+
+function clickHandlerGoModal(placeId) {
+    cleanModal(); // очистка значений в модальном окне
+    checkOfCheckbox(); // проверка на чекбоксы
+
+    renderPositionsOfModalMenu();
+
+    renderPrizeinModalMenu();
+
+    downloadDataById(placeId)
+        .then(data => renderInfoAboutPlaceInModal(data)); // рендер информации о заведении в модальном окне
+
+    let allEndPricesInModal = document.querySelectorAll('.end-price-position-element');
+    let endPrice = document.querySelector('.modal-final-cost').innerHTML;
+    for (let price of allEndPricesInModal) {
+        endPrice = +endPrice + +price.innerHTML;
+    } // получение конечной стоимости заказа в модальном окне
+    if (document.getElementById('FastDelivery').checked) {
+        endPrice = endPrice * 1.2;
+    } // по условию если выбран чекбокс с быстрой доставкой, то мы увеличиваем стоимость на 20%
+    document.querySelector('.modal-final-cost').innerHTML = endPrice + 'P';
+
+    document.querySelector('.btn-repeat-order').onclick = function () {
+        takeBackOnChooseAndClean();
+    } // если выбрана кнопка отмена заказа, то мы откатываемся в первоначальное положение. Полное пояснение ниже под функцией "takeBackOnChooseAndClean".
+}
+
+function takeBackOnChooseAndClean() {
+    document.querySelector('.header-of-menu').classList.add('d-none'); // скрываем все меню данного заведения
+    document.getElementById('menu-of-eaten').classList.add('d-none'); // скрываем все меню данного заведения
+    document.querySelector('.options-of-menu').classList.add('d-none'); // скрываем все меню данного заведения
+    document.getElementById('IWannaGift').checked = false; // убираем галочку в чекбоксе о подарке
+    document.getElementById('FastDelivery').checked = false; // убираем галочку в чекбоксе о быстрой доставке
+} // функция "чистит" наш выбор по данному заведению, если мы отказались брать данный заказ. 
+// Данная функция служит для того, чтобы люди не игрались с тем, что можно каждый раз по кнопке генерить разный подарок, тем самым увеличивая шансы выпадения нужной позиции
+// Это я добавил от себя, если что можно все вернуть обратно, чтобы ничего не сбрасывалось и подарок генерировался постоянно рандомно при каждом нажатии на конпку "Оформить заказ".
+
+function renderInfoAboutPlaceInModal(jsonData) {
+    document.querySelector('.modal-information-name').innerHTML = jsonData.name;
+    document.querySelector('.modal-information-adm-area').innerHTML = jsonData.admArea;
+    document.querySelector('.modal-information-dist').innerHTML = jsonData.district;
+    document.querySelector('.modal-information-address').innerHTML = jsonData.address;
+    document.querySelector('.modal-information-rating').innerHTML = jsonData.rate;
+} // функция рендерит в модальном окне информацию о заведении
+
+function checkOfCheckbox() {
+    if (document.getElementById('IWannaGift').checked) {
+        document.querySelector('.free-gift-checkbox').innerHTML = 'Да';
+    } else {
+        document.querySelector('.free-gift-checkbox').innerHTML = 'Нет';
+    }
+
+    if (document.getElementById('FastDelivery').checked) {
+        document.querySelector('.fast-delivery-checkbox').innerHTML = '+20%';
+    } else {
+        document.querySelector('.fast-delivery-checkbox').innerHTML = 'Нет';
+    }
+} // функция проверяет выбраны ли чекбоксы и вставляет в модальное окно то, что выбрано
 
 function clickHandlerChoiceBtn(event) {
     document.getElementById('final-cost').innerHTML = 0;
@@ -517,9 +637,7 @@ function clickHandlerChoiceBtn(event) {
     let rowId = placeRow.getAttribute('place-id'); // берем id из нашего атрибута
     downloadDataById(rowId) // загружаем данные по id
         .then(menuItem => takePricesFromDataById(menuItem)) // берем только 10 цен
-        .then(arr => takeJsonInfo(arr)); // вызов рендера меню
-
-
+        .then(arr => takeJsonInfo(arr, rowId)); // вызов рендера меню
 }
 
 function clickHandlerSearchBtn() {
@@ -533,7 +651,7 @@ function TakeIdOfEatery() {
     for (let btn of document.querySelectorAll('.place-row')) {
         btn.onclick = clickHandlerChoiceBtn;
     }
-}
+} // навешиваем обработчик событий на кнопки "Выбрать" у каждого заведения, чтобы вытаскивать id-шники и работать дальше с этими заведениями.
 
 function addCostOfDish() {
     for (let btn of document.querySelectorAll('.button-plus')) {
@@ -548,13 +666,14 @@ function removeCostOfDish() {
 } // назначим обработчик на каждую кнопку
 
 function clickHandlerAddCostBtn(event) {
+    document.querySelector('.btn-order').removeAttribute('disabled');
     event.target.parentNode.querySelector('.input-value').stepUp();
     let temp = event.target.closest('.card-body');
     let cost = temp.querySelector('.card-cost').innerHTML;
-    
+
     document.getElementById('final-cost').innerHTML = +document.getElementById('final-cost').innerHTML + +cost;
     console.log(cost);
-}
+} // увеличение количества по данной позиции меню
 
 function clickHandlerRemoveCostBtn(event) {
     if (event.target.parentNode.querySelector('.input-value').value != 0) {
@@ -564,8 +683,10 @@ function clickHandlerRemoveCostBtn(event) {
         document.getElementById('final-cost').innerHTML = +document.getElementById('final-cost').innerHTML - +cost;
         console.log(cost);
     }
-    
-}
+    if (document.querySelector('#final-cost').innerHTML == 0) {
+        document.querySelector('.btn-order').setAttribute('disabled', 'true');
+    }
+} // уменьшение количества по данной позиции меню
 
 window.onload = function () {
     let url = 'http://exam-2022-1-api.std-900.ist.mospolytech.ru/api/restaurants?api_key=17e65b07-b348-471d-a4b7-94b9b78e091b';
@@ -588,7 +709,13 @@ window.onload = function () {
         else downloadForm(url)
             .then(downloadData => renderDistrictList(downloadData))
         ///////////////////////////////////////////////////////////////////////////////////////////
+
     }
 
 
 }
+
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+} // функция для генерации случайного числа
