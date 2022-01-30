@@ -590,7 +590,7 @@ function clickHandlerGoModal(placeId) {
         endPrice = +endPrice + +price.innerHTML;
     } // получение конечной стоимости заказа в модальном окне
     if (document.getElementById('FastDelivery').checked) {
-        endPrice = endPrice * 1.2;
+        endPrice = Math.floor(endPrice * 1.2);
     } // по условию если выбран чекбокс с быстрой доставкой, то мы увеличиваем стоимость на 20%
     document.querySelector('.modal-final-cost').innerHTML = endPrice + 'P';
 
@@ -709,12 +709,8 @@ window.onload = function () {
         else downloadForm(url)
             .then(downloadData => renderDistrictList(downloadData))
         ///////////////////////////////////////////////////////////////////////////////////////////
-
     }
-
-
 }
-
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
