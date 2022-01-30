@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+    <!-- Local CSS Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Local JS Scripts -->
+    <!-- <script src="main.js"></script> -->
+    <script src="menu.json"></script>
+
+    <title>Delivery Service</title>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <div class="container-fluid">
+                <div class="border-end d-flex flex-nowrap align-items-center">
+                    <a class="navbar-brand mx-3 logo-img" href="#">
+                        <img src="sources/fast-delivery.png" alt="">
+                    </a>
+                    <a class="navbar-brand mr-3" href="#">
+                        <h3>Delivery Service</h3>
+                    </a>
+
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse text-end justify-content-end" id="navbarNavDropdown">
+                    <ul class="navbar-nav fw-bold">
+                        <li class="nav-item border-start">
+                            <a class="nav-link mx-3" href="index.html">Главная</a>
+                        </li>
+                        <li class="nav-item border-start">
+                            <a class="nav-link active mx-3" aria-current="page" href="#">Административная панель</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="d-flex justify-content-center">
+        <div class="my-5 width-on-section-choose-company text-center rounded-3 shadow-lg p-3 mb-5 bg-body">
+            <h1 class="mt-5">Выбор предприятия общественного питания</h1>
+            <div class="heading-line mx-auto mt-5"></div>
+            <div class="border my-5">
+                <div class="container">
+                    <div class="row mt-5">
+                        <div class="col-lg-7 mb-3">
+                            <h6 class="text-start">Наименование</h6>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" aria-describedby="basic-addon2">
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mb-3">
+                            <h6 class="text-start">Административный округ</h6>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Не выбрано</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mt-1">
+                        <div class="col-lg-7 mb-3 d-flex flex-row flex-wrap">
+                            <div class="col-lg-6 mb-3 me-1 d-flex flex-column">
+                                <h6 class="text-start">Количество посадочных мест</h6>
+                                <div class="d-flex flex-nowrap">
+                                    <div class="mb-3 mx-1 d-flex flex-row flex-nowrap align-items-center">
+                                        <h6 class=" me-2 mb-0">от</h6>
+                                        <div class="input-group mt-1">
+                                            <input type="text" class="form-control" aria-describedby="basic-addon2">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mb-3 mx-1 d-flex flex-row flex-nowrap align-items-center">
+                                        <h6 class=" me-2 mb-0">до</h6>
+                                        <div class="input-group mt-1">
+                                            <input type="text" class="form-control" aria-describedby="basic-addon2">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col mb-3 ms-1 d-flex flex-column">
+                                <h6 class="text-start">Является сетевым</h6>
+                                <select class="form-select mt-1" aria-label="Default select example">
+                                    <option selected>Не выбрано</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mb-3 mt-1 d-flex flex-column">
+                            <h6 class="text-start">Район</h6>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Не выбрано</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-7 mb-3 d-flex flex-row flex-wrap">
+                            <div class="col-lg-6 mb-3 me-1 d-flex flex-column">
+                                <h6 class="text-start">Дата создания</h6>
+                                <div class="d-flex flex-nowrap">
+                                    <div class="mb-3 mx-1 d-flex flex-row flex-nowrap align-items-center">
+                                        <h6 class=" me-2 mb-0 me-3">с</h6>
+                                        <div class="input-group mt-1">
+                                            <input type="text" class="form-control" aria-describedby="basic-addon2">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mb-3 mx-1 d-flex flex-row flex-nowrap align-items-center">
+                                        <h6 class=" me-2 mb-0">по</h6>
+                                        <div class="input-group mt-1">
+                                            <input type="text" class="form-control" aria-describedby="basic-addon2">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col mb-3 ms-1 d-flex flex-column">
+                                <h6 class="text-start">Льготы</h6>
+                                <select class="form-select mt-1" aria-label="Default select example">
+                                    <option selected>Не выбрано</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mb-3 mt-1 d-flex flex-column">
+                            <h6 class="text-start">Вид объекта</h6>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Не выбрано</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-1 mb-5">
+                    <button class="btn btn-primary search-btn w-25" type="button">Найти</button>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="border mb-5 table-responsive width-on-section-choose-company">
+                        <table class="table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th width="22%" scope="col">Название</th>
+                                    <th width="22%" scope="col">Тип</th>
+                                    <th width="41%" scope="col">Адрес</th>
+                                    <th width="15%" scope="col">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-cafe">
+                                <tr>
+                                    <td width="22%" scope="col" class="fw-bold">Розмарин</td>
+                                    <td width="22%" scope="col">ресторан</td>
+                                    <td width="41%" scope="col">город Москва, Беговая улица, дом 28</td>
+                                    <td width="15%" scope="col">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="22%" scope="col" class="fw-bold">МУ-МУ</td>
+                                    <td width="22%" scope="col">кафе</td>
+                                    <td width="41%" scope="col">город Москва, Малый Гнездниковский переулок, дом 9,
+                                        строение 7</td>
+                                    <td width="15%" scope="col">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="22%" scope="col" class="fw-bold">Ресторан «Персия»</td>
+                                    <td width="22%" scope="col">ресторан</td>
+                                    <td width="41%" scope="col">город Москва, Краснохолмская набережная, дом 1/15</td>
+                                    <td width="15%" scope="col">
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+                <div class="mx-auto my-5 width-on-section-choose-company">
+                    <div class="m-2 d-flex justify-content-between flex-sm-row flex-column">
+                        <div class="d-flex flex-nowrap mb-4">
+                            <button class="btn btn-outline-secondary search-btn" type="button">1</button>
+                            <h6 class="fw-bold mt-auto mb-0 mx-2">. . .</h6>
+                            <button class="btn btn-outline-secondary search-btn" type="button">5</button>
+                            <button class="btn btn-outline-secondary search-btn" type="button">6</button>
+                            <button class="btn btn-outline-secondary search-btn" type="button">7</button>
+                            <h6 class="fw-bold mt-auto mb-0 mx-2">. . .</h6>
+                            <button class="btn btn-outline-secondary search-btn" type="button">50</button>
+                        </div>
+                        <button class="btn btn-outline-secondary search-btn mb-4" type="button">Добавить предприятие</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <footer class="d-flex justify-content-between align-items-center py-3 my-4 border-top flex-wrap">
+                <div class="col-md-4 d-flex justify-content-center align-items-start flex-wrap flex-column">
+                    <p class="mb-0 text-muted">© 2022 Food Delivery</p>
+                    <p>example@example.ru</p>
+                </div>
+
+                <a href="/"
+                    class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none logo-img">
+                    <img src="sources/fast-delivery.png" alt="">
+                    <!-- <h4>Delivery Service</h4> -->
+                </a>
+
+                <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                    <li class="ms-3"><a class="text-muted" href="#"><i class="bi bi-footer bi-twitter"></i></a></li>
+                    <li class="ms-3"><a class="text-muted" href="#"><i class="bi bi-footer bi-instagram"></i></a>
+                    </li>
+                    <li class="ms-3"><a class="text-muted" href="#"><i class="bi bi-footer bi-facebook"></i></a>
+                    </li>
+                </ul>
+            </footer>
+        </div>
+    </div>
+</footer>
+
+</html>

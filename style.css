@@ -9,19 +9,59 @@
     width: 4rem;
 }
 
-.carousel-item img {
-    opacity: .4;
-    min-height: 100%;
-    min-width: 100%;
-}
-
-.carousel-item {
-    height: 30rem;
+.carousel-item { 
+    height: 32rem; 
+    display: flex; 
+    max-height: 500px;
     background-color: #000; 
     color:white; 
     position: relative; 
     background-position: center; 
-    background-size: cover;   
+    background-size: cover; 
+} 
+
+.carousel-text { 
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    padding-bottom: 50px; 
+} 
+
+.overlay-image1 { 
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    top: 0; 
+    background-position: center; 
+    background-size: cover; 
+    opacity: .4; 
+    background-image: url(sources/16faa97ea75f3ec251a27b6228351690.jpg);
+}
+
+.overlay-image2 { 
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    top: 0; 
+    background-position: center; 
+    background-size: cover; 
+    opacity: .4; 
+    background-image: url(sources/1620734343_11-phonoteka_org-p-sushi-pitstsa-fon-12.jpg);
+}
+
+.overlay-image3 { 
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    top: 0; 
+    background-position: center; 
+    background-size: cover; 
+    opacity: .4; 
+    background-image: url(sources/0e93ce954bad45149928.jpeg);
 }
 
 .heading-line {
@@ -58,4 +98,8 @@
 
 .img-position-element {
     width: 8rem;
+}
+
+.admin-name-height {
+    height: 20px!important;
 }

@@ -360,16 +360,16 @@ function dotsOnPagination() {
 
 function renderLargePagination(b, items, data) {
     let pagination = document.getElementById('_pagination');
-    const countBtn = 5;
+    const countBtn = 3;
     const strOnPage = 10; // количество строк в таблице
     const numOfBtn = Math.ceil(data.length / strOnPage) // количество кнопок
     let dotsOnPag1 = dotsOnPagination();
     let dotsOnPag2 = dotsOnPagination();
     let dotsOnPag3 = dotsOnPagination();
     let dotsOnPag4 = dotsOnPagination();
-    if (b <= countBtn - 1) {
+    if (b <= countBtn) {
         pagination.innerHTML = '';
-        for (let i = 0; i < countBtn; i++) {
+        for (let i = 0; i < countBtn + 1; i++) {
             pagination.appendChild(items[i]);
         }
         pagination.appendChild(dotsOnPag1);
@@ -380,7 +380,7 @@ function renderLargePagination(b, items, data) {
         pagination.innerHTML = '';
         pagination.appendChild(items[0]);
         pagination.appendChild(dotsOnPag2);
-        for (let i = numOfBtn - (countBtn - 1) - 1; i < numOfBtn; i++) {
+        for (let i = numOfBtn - (countBtn - 1) - 2; i < numOfBtn; i++) {
             pagination.appendChild(items[i]);
         }
     } // случай, когда у нас активна одна из последних 4ех кнопок: 1 ... "LastPage" - 3, "LastPage" - 2, "LastPage" - 1, "LastPage" 
@@ -389,7 +389,7 @@ function renderLargePagination(b, items, data) {
         pagination.innerHTML = '';
         pagination.appendChild(items[0]);
         pagination.appendChild(dotsOnPag3);
-        for (let i = -3; i <= 1; i++) {
+        for (let i = -2; i <= 0; i++) {
             pagination.appendChild(items[b + i]);
         }
         pagination.appendChild(dotsOnPag4);
