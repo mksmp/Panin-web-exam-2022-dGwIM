@@ -376,7 +376,7 @@ function renderLargePagination(b, items, data) {
         pagination.appendChild(items[numOfBtn - 1]);
     } // случай, когда у нас активна одна из первых 4ех кнопок: 1 2 3 4 ... "LastPage" 
 
-    else if (b >= numOfBtn - (countBtn - 1) + 1) {
+    else if (b >= numOfBtn - (countBtn - 1)) {
         pagination.innerHTML = '';
         pagination.appendChild(items[0]);
         pagination.appendChild(dotsOnPag2);
